@@ -1,13 +1,39 @@
 import "./Calendar.css";
-import left from "../src/image/left.png";
-import right from "../src/image/right.png";
+import test_data from "./data.json";
 
 import { useState } from "react";
 import moment from "moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUser,
+  faRotateRight,
+  faChevronRight,
+  faChevronLeft,
+  faBroadcastTower,
+  faCompactDisc,
+  faStore,
+  faGift,
+  faCalendarCheck,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Calendar = () => {
+  let [clicked, setClicked] = useState("");
+
+  const toggleActive = (e) => {
+    setClicked((prev) => {
+      return e.target.value;
+    });
+  };
+
+  // const toggleActive = (e) => {
+  //   setBtnActive((prev) => {
+  //     return e.target.value;
+  //   });
+  // };
+
   // useState를 사용하여 달 단위로 변경
   const [getMoment, setMoment] = useState(moment());
+  //   console.log(getMoment);
 
   const today = getMoment;
 
@@ -26,6 +52,7 @@ const Calendar = () => {
   const calendarArr = () => {
     let result = [];
     let week = firstWeek;
+
     for (week; week <= lastWeek; week++) {
       result = result.concat(
         <tr key={week}>
@@ -38,17 +65,32 @@ const Calendar = () => {
                 .week(week)
                 .startOf("week")
                 .add(index, "day");
-              console.log("data:" + data);
-              console.log("index:" + index);
 
+              //   console.log("data:" + data);
+              //   console.log("index:" + index);
+              //   console.log(moment().format("YYYY.MM"));
+
+              // 오늘 날짜 원으로 표시
               if (moment().format("YYYYMMDD") === days.format("YYYYMMDD")) {
                 return (
-                  <td key={index} className="today">
-                    <div className="circle">
-                      <span>{days.format("D")}</span>
+                  <td
+                    key={index}
+                    className="today"
+                    onClick={() =>
+                      console.log(
+                        days.format("M") + "월" + " " + days.format("D") + "일"
+                      )
+                    }
+                  >
+                    {/* <div className="today"> */}
+                    <span>{days.format("D")}</span>
+                    <div className="event-content">
+                      <Show_event days={days} />
                     </div>
+                    {/* </div> */}
                   </td>
                 );
+                // 다른 달은 글씨 색 연하게
               } else if (days.format("MM") !== today.format("MM")) {
                 return (
                   <td key={index} style={{ color: "#c2c2c2" }}>
@@ -57,8 +99,24 @@ const Calendar = () => {
                 );
               } else {
                 return (
-                  <td key={index}>
-                    <span>{days.format("D")}</span>
+                  <td
+                    key={index}
+                    onClick={() =>
+                      console.log(
+                        days.format("M") + "월" + " " + days.format("D") + "일"
+                      )
+                    }
+                  >
+                    <span
+                      value={index}
+                      className={"click" + (index == clicked ? "active" : "")}
+                      onClick={toggleActive}
+                    >
+                      {days.format("D")}
+                    </span>
+                    <div className="event-content">
+                      <Show_event days={days} />
+                    </div>
                   </td>
                 );
               }
@@ -70,48 +128,67 @@ const Calendar = () => {
   };
 
   return (
-    <div className="container">
-      <div className="control">
+    <div className="calendar-container">
+      <div className="control-container">
         <button
-          className="button"
+          className="prev-btn"
           onClick={() => {
             // clone() 은 기존의 moment가 아닌 새로운 객체를 반환했다는 의미
             setMoment(getMoment.clone().subtract(1, "month"));
           }}
         >
-          <img className="arrow" src={left} alt="left" />
+          <FontAwesomeIcon icon={faChevronLeft} size="lg" />
         </button>
         <span className="title">{today.format("YYYY.MM")}</span>
-
         <button
-          className="button"
+          className="next-btn"
           onClick={() => {
             setMoment(getMoment.clone().add(1, "month"));
           }}
         >
-          <img className="arrow" src={right} alt="right" />
+          <FontAwesomeIcon icon={faChevronRight} size="lg" />
+        </button>
+        <button
+          className="today-btn"
+          onClick={() => {
+            setMoment(moment());
+          }}
+        >
+          <FontAwesomeIcon icon={faRotateRight} />
         </button>
       </div>
 
-      <div className="buttongroup">
-        <button className="categorybutton">오늘</button>
-        <button className="categorybutton">방송</button>
-        <button className="categorybutton">발매</button>
-        <button className="categorybutton">구매</button>
-        <button className="categorybutton">축하</button>
-        <button className="categorybutton">행사</button>
+      <div className="category-container">
+        <button className="category-btn">
+          <FontAwesomeIcon icon={faBroadcastTower} size="sm" /> 방송
+        </button>
+        <button className="category-btn">
+          <FontAwesomeIcon icon={faCompactDisc} size="sm" /> 발매
+        </button>
+        <button className="category-btn">
+          <FontAwesomeIcon icon={faStore} size="sm" /> 구매
+        </button>
+        <button className="category-btn">
+          <FontAwesomeIcon icon={faGift} size="sm" /> 축하
+        </button>
+        <button className="category-btn">
+          <FontAwesomeIcon icon={faCalendarCheck} size="sm" /> 행사
+        </button>
+        <button className="category-btn">
+          <FontAwesomeIcon icon={faUser} size="sm" /> my
+        </button>
       </div>
 
       <table>
         <tbody>
           <tr>
-            <td className="weekTitle">일</td>
-            <td className="weekTitle">월</td>
-            <td className="weekTitle">화</td>
-            <td className="weekTitle">수</td>
-            <td className="weekTitle">목</td>
-            <td className="weekTitle">금</td>
-            <td className="weekTitle">토</td>
+            <td className="week">일</td>
+            <td className="week">월</td>
+            <td className="week">화</td>
+            <td className="week">수</td>
+            <td className="week">목</td>
+            <td className="week">금</td>
+            <td className="week">토</td>
           </tr>
           {calendarArr()}
         </tbody>
@@ -120,3 +197,20 @@ const Calendar = () => {
   );
 };
 export default Calendar;
+
+function Show_event({ days }) {
+  return (
+    <>
+      {test_data.event.map((data, i) => {
+        console.log(data, i);
+        if (days.format("YYYYMMDD") == moment(data.date).format("YYYYMMDD")) {
+          return (
+            <div key={i} onClick={() => console.log(data)} className="event">
+              {data.schedules.content}
+            </div>
+          );
+        }
+      })}
+    </>
+  );
+}

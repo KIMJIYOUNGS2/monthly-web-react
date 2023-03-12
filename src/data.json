@@ -1,0 +1,34 @@
+{
+  "event" : [
+     {
+        "date" : "20230301",
+        "schedules" : [
+           {
+              "title" : "제목",
+              "content" : "일정",
+              "type" : "event"
+           },
+           {
+              "title" : "제목2",
+              "content" : "일정2",
+              "type" : "event"
+            }
+        ]
+     },
+     {
+        "date" : "20230310",
+        "schedules" : [
+           {
+              "title" : "제목3",
+              "content" : "일정3",
+              "type" : "broadcast"
+           },
+           {
+              "title" : "제목4",
+              "content" : "일정4",
+              "type" : "event"
+            }
+        ]
+     }
+  ]
+}
