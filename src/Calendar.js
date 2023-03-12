@@ -17,19 +17,21 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Calendar = () => {
-  let [clicked, setClicked] = useState("");
+  const handleClick = (idx) => {
+    this.setState({
+      isClicked: this.state.isClicked.map((element, index) => {
+        return index === idx ? !element : element;
+      }),
+    });
+  };
+
+  let [clicked, setClicked] = useState(false);
 
   const toggleActive = (e) => {
     setClicked((prev) => {
       return e.target.value;
     });
   };
-
-  // const toggleActive = (e) => {
-  //   setBtnActive((prev) => {
-  //     return e.target.value;
-  //   });
-  // };
 
   // useState를 사용하여 달 단위로 변경
   const [getMoment, setMoment] = useState(moment());
@@ -76,11 +78,11 @@ const Calendar = () => {
                   <td
                     key={index}
                     className="today"
-                    onClick={() =>
-                      console.log(
-                        days.format("M") + "월" + " " + days.format("D") + "일"
-                      )
-                    }
+                    // onClick={() =>
+                    //   console.log(
+                    //     days.format("M") + "월" + " " + days.format("D") + "일"
+                    //   )
+                    // }
                   >
                     {/* <div className="today"> */}
                     <span>{days.format("D")}</span>
@@ -101,11 +103,11 @@ const Calendar = () => {
                 return (
                   <td
                     key={index}
-                    onClick={() =>
-                      console.log(
-                        days.format("M") + "월" + " " + days.format("D") + "일"
-                      )
-                    }
+                    // onClick={() =>
+                    //   console.log(
+                    //     days.format("M") + "월" + " " + days.format("D") + "일"
+                    //   )
+                    // }
                   >
                     <span
                       value={index}
@@ -202,13 +204,46 @@ function Show_event({ days }) {
   return (
     <>
       {test_data.event.map((data, i) => {
-        console.log(data, i);
+        // console.log(data, i);
         if (days.format("YYYYMMDD") == moment(data.date).format("YYYYMMDD")) {
-          return (
-            <div key={i} onClick={() => console.log(data)} className="event">
-              {data.schedules.content}
-            </div>
-          );
+          // console.log(data.type);
+          if (data.type === "broadcast") {
+            return (
+              <div key={i} className="broadcast">
+                {data.event}
+              </div>
+            );
+          } else if (data.type === "release") {
+            return (
+              <div key={i} className="release">
+                {data.event}
+              </div>
+            );
+          } else if (data.type === "buy") {
+            return (
+              <div key={i} className="buy">
+                {data.event}
+              </div>
+            );
+          } else if (data.type === "congratulations") {
+            return (
+              <div key={i} className="congratulations">
+                {data.event}
+              </div>
+            );
+          } else if (data.type === "event") {
+            return (
+              <div key={i} className="event">
+                {data.event}
+              </div>
+            );
+          } else {
+            return (
+              <div key={i} className="my">
+                {data.event}
+              </div>
+            );
+          }
         }
       })}
     </>
