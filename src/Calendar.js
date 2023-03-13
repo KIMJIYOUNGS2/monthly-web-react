@@ -17,21 +17,21 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Calendar = () => {
-  const handleClick = (idx) => {
-    this.setState({
-      isClicked: this.state.isClicked.map((element, index) => {
-        return index === idx ? !element : element;
-      }),
-    });
-  };
+  // const handleClick = (idx) => {
+  //   this.setState({
+  //     isClicked: this.state.isClicked.map((element, index) => {
+  //       return index === idx ? !element : element;
+  //     }),
+  //   });
+  // };
 
-  let [clicked, setClicked] = useState(false);
+  // let [clicked, setClicked] = useState(false);
 
-  const toggleActive = (e) => {
-    setClicked((prev) => {
-      return e.target.value;
-    });
-  };
+  // const toggleActive = (e) => {
+  //   setClicked((prev) => {
+  //     return e.target.value;
+  //   });
+  // };
 
   // useState를 사용하여 달 단위로 변경
   const [getMoment, setMoment] = useState(moment());
@@ -52,7 +52,7 @@ const Calendar = () => {
   // 반복문을 사용하여 해당 달의 총주의 수만큼 반복문을 실행하고 테이블의 내용을 배열에 추가
   // 길이가 7인 arr를 생성 후 index를 기반으로 day을 표기
   const calendarArr = () => {
-    let result = [];
+    let result = []; // 이번달 배열
     let week = firstWeek;
 
     for (week; week <= lastWeek; week++) {
@@ -70,9 +70,9 @@ const Calendar = () => {
 
               //   console.log("data:" + data);
               //   console.log("index:" + index);
-              //   console.log(moment().format("YYYY.MM"));
+              // console.log(moment().format("YYYY.MM"));
 
-              // 오늘 날짜 원으로 표시
+              // 오늘 날짜 밑줄 today underline
               if (moment().format("YYYYMMDD") === days.format("YYYYMMDD")) {
                 return (
                   <td
@@ -111,8 +111,8 @@ const Calendar = () => {
                   >
                     <span
                       value={index}
-                      className={"click" + (index == clicked ? "active" : "")}
-                      onClick={toggleActive}
+                      // className={"click" + (index == clicked ? "active" : "")}
+                      // onClick={toggleActive}
                     >
                       {days.format("D")}
                     </span>
@@ -180,7 +180,6 @@ const Calendar = () => {
           <FontAwesomeIcon icon={faUser} size="sm" /> my
         </button>
       </div>
-
       <table>
         <tbody>
           <tr>
@@ -200,6 +199,7 @@ const Calendar = () => {
 };
 export default Calendar;
 
+// Show_event(): 달력에 데이터를 보여주는 기능
 function Show_event({ days }) {
   return (
     <>

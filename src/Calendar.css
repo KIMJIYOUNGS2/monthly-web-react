@@ -30,7 +30,8 @@
 }
 
 .calendar-container .today {
-    text-decoration: underline;    
+    text-decoration: underline;
+    font-weight: 700;
     z-index: 2;
 }
 
@@ -134,9 +135,21 @@
     margin: auto;
     text-align: center;
     vertical-align: top;
+    
     /* padding-top: 1rem; */
     /* border: 1px solid black; */
     
+}
+
+.calendar-container td span{
+    cursor: pointer;
+}
+
+.calendar-container td span:hover{
+    color:white;
+    background-color: black;
+    border-radius: 50%;
+    padding: 10px;
 }
 
 .event-content {
